@@ -1,5 +1,18 @@
 import puppeteer from "puppeteer";
 
+async function handleAgeRestriction(p) {
+  await p.evaluate(() => {
+    const select = document.querySelector("#ageYear");
+    const options = select.querySelectorAll("option");
+    const selectedOption = [...options].find(
+      (option) => option.text === "1900"
+    );
+
+    selectedOption.selected = true;
+  });
+  await p.click("#view_product_page_btn");
+}
+
 async function getDataFromGame() {
   const browser = await puppeteer.launch({ headless: false });
 
@@ -38,4 +51,4 @@ async function getDataFromGame() {
   await browser.close();
 }
 
-getDataFromGame()
+getDataFromGame();
